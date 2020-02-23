@@ -17,6 +17,9 @@ func ToPostgresFunc(uri, method string) (funcName string, id []interface{}) {
 	if strings.Index(uri, ApiURI) == 0 {
 		uri = strings.Replace(uri, ApiURI, "", 1)
 	}
+	if strings.Index(uri, "/") == 0 {
+		uri = uri[1:len(uri)]
+	}
 	params := strings.Split(uri, `/`)
 	var result []string
 	for index, object := range params {
@@ -24,7 +27,7 @@ func ToPostgresFunc(uri, method string) (funcName string, id []interface{}) {
 			result = append(result, object)
 		} else {
 			num, _ := strconv.ParseInt(object, 10, 64)
-			id = append(id, int(num))
+			id = append(id, num)
 		}
 	}
 	funcName = strings.Join(result, "_")

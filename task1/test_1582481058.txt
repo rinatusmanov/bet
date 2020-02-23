@@ -1,0 +1,14 @@
+goos: windows
+goarch: amd64
+pkg: bet/task1
+BenchmarkLoadVariables-8               	  300000	      4247 ns/op
+BenchmarkToPostgresFunc-8              	 5000000	       270 ns/op
+BenchmarkToPostgresFunc1-8             	 5000000	       266 ns/op
+BenchmarkToPostgresFunc2-8             	 3000000	       529 ns/op
+BenchmarkToPostgresFunc3-8             	 2000000	       654 ns/op
+BenchmarkPostgresParamsMixin-8         	300000000	         4.96 ns/op
+BenchmarkPostgresParamsMixinSmall-8    	 2000000	       603 ns/op
+BenchmarkPostgresParamsMixinMiddle-8   	  200000	      6381 ns/op
+BenchmarkPostgresParamsMixinLarge-8    	  200000	     10487 ns/op
+PASS
+ok  	bet/task1	18.561s

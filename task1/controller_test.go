@@ -45,7 +45,7 @@ func TestController(t *testing.T) {
 				method:     "POST",
 				answerCode: 200,
 				answerBody: controllerAnswer{
-					FuncName: "SELECT * FROM test.user_ins($1,$2,$3,$4);",
+					FuncName: "SELECT * FROM test.henry_qwerty_kinder_ins($1,$2,$3,$4,$5,$6);",
 					Params:   []interface{}{1, 2, "test", 2, "test_2", 1},
 					Body:     `{"test":2,"test_2":1}`,
 				},
@@ -70,6 +70,14 @@ func TestController(t *testing.T) {
 			if answerBody.Body != testCase.answerBody.Body {
 				t.Fatalf("ошибка теста # %v несовпадение body, должно быть %v получено %v", testCase.name, testCase.answerBody.Body, answerBody.Body)
 			}
+			if answerBody.FuncName != testCase.answerBody.FuncName {
+				t.Fatalf("ошибка теста # %v несовпадение FuncName, должно быть %v получено %v", testCase.name, testCase.answerBody.FuncName, answerBody.FuncName)
+			}
+
+			if len(answerBody.Params) != len(testCase.answerBody.Params) {
+				t.Fatalf("ошибка теста # %v несовпадение Params, должно быть %v получено %v", testCase.name, testCase.answerBody.Params, answerBody.Params)
+			}
+
 		})
 	}
 }
@@ -119,7 +127,7 @@ func TestToPostgresFunc(t *testing.T) {
 			uri:      "user/1/comment/1000/kinder",
 			method:   "POST",
 			funcName: "user_comment_kinder_ins",
-			id:       []interface{}{1, 1000},
+			id:       []interface{}{int64(1), int64(1000)},
 		},
 	}
 	for index, testCase := range testCases {
@@ -132,7 +140,7 @@ func TestToPostgresFunc(t *testing.T) {
 		} else {
 			for i := 0; i < len(id); i++ {
 				if id[i] != testCase.id[i] {
-					t.Fatalf("тест # %v, не прошел, id ожидалось %v, получилось %v.", index, testCase.id, id)
+					t.Fatalf("тест # %v, не прошел, id ожидалось %v, получилось %v.", index, testCase.id[i], id[i])
 				}
 			}
 		}
