@@ -14,8 +14,8 @@ const (
 )
 
 func ToPostgresFunc(uri, method string) (funcName string, id []interface{}) {
-	if strings.Index(uri, apiURI) == 0 {
-		uri = strings.Replace(uri, apiURI, "", 1)
+	if strings.Index(uri, ApiURI) == 0 {
+		uri = strings.Replace(uri, ApiURI, "", 1)
 	}
 	params := strings.Split(uri, `/`)
 	var result []string

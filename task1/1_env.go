@@ -15,6 +15,7 @@ var (
 	PasswordEnv    string
 	SchemaEnv      string
 	DBEnv          string
+	ApiURI         string
 )
 
 func LoadVariables() {
@@ -26,12 +27,5 @@ func LoadVariables() {
 	PasswordEnv = os.Getenv("password")
 	SchemaEnv = os.Getenv("schema")
 	DBEnv = os.Getenv("db")
-}
-
-var (
-	apiURI string
-)
-
-func init() {
-	apiURI = fmt.Sprintf("/%v/v%v/", EndpointEnv, Version)
+	ApiURI = fmt.Sprintf("/%v/v%v/", EndpointEnv, Version)
 }

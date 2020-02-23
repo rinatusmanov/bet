@@ -22,7 +22,7 @@ type testControllerCase struct {
 func TestController(t *testing.T) {
 	EndpointEnv = "test_endpoint"
 	SchemaEnv = "test"
-	apiURI = fmt.Sprintf("/%v/v%v/", EndpointEnv, Version)
+	ApiURI = fmt.Sprintf("/%v/v%v/", EndpointEnv, Version)
 	var (
 		ts        = httptest.NewServer(http.HandlerFunc(Controller))
 		testCases = []testControllerCase{
