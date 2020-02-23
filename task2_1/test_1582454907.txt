@@ -1,0 +1,8 @@
+goos: windows
+goarch: amd64
+pkg: bet-planet/task2_1
+BenchmarkCreateUnitedChannel_intChSl-8         	   20000	     87883 ns/op
+BenchmarkCreateUnitedChannel_stringChSl-8      	   20000	     96822 ns/op
+BenchmarkCreateUnitedChannel_interfaceChSl-8   	   10000	    141075 ns/op
+PASS
+ok  	bet-planet/task2_1	14.142s

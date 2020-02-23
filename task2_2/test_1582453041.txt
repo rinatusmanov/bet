@@ -1,0 +1,9 @@
+goos: windows
+goarch: amd64
+pkg: bet-planet/task2_2
+BenchmarkCreateThreeValuesToOneSumFreeSlice-8     	100000000	        13.2 ns/op
+BenchmarkCreateThreeValuesToOneSumMiniSlice-8     	  200000	      6532 ns/op
+BenchmarkCreateThreeValuesToOneSumMiddleSlice-8   	     200	   9615539 ns/op
+BenchmarkCreateThreeValuesToOneSumLargeSlice-8    	      10	 157419770 ns/op
+PASS
+ok  	bet-planet/task2_2	8.034s
