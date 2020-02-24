@@ -35,8 +35,8 @@ func CreateUnitedChannel(intCh ...interface{}) (ch chan interface{}) {
 	}
 	return
 }
-func
-main() {
+
+func main() {
 	intCh := make(chan int)
 	stringCh := make(chan string)
 	go func() {
