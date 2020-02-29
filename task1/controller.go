@@ -60,7 +60,6 @@ func PostgresParamsMixin(inData []interface{}) string {
 }
 
 func Controller(writer http.ResponseWriter, request *http.Request) {
-	writer.Header().Set("Content-Type", "application/json")
 	funcName, params := ToPostgresFunc(request.URL.Path, request.Method)
 	result := controllerAnswer{
 		FuncName: funcName,
@@ -68,15 +67,44 @@ func Controller(writer http.ResponseWriter, request *http.Request) {
 	}
 	switch strings.ToUpper(request.Method) {
 	case "POST", "PUT":
-		var data map[string]interface{}
 		byteSl, _ := ioutil.ReadAll(request.Body)
-		result.Body = string(byteSl)
-		_ = json.Unmarshal(byteSl, &data)
-		for name, val := range data {
-			result.Params = append(result.Params, name, val)
-		}
+		result.Params = append(result.Params, string(byteSl))
 	}
 	result.FuncName = fmt.Sprintf("SELECT * FROM %v.%v(%v);", SchemaEnv, result.FuncName, PostgresParamsMixin(result.Params))
-	jsonAnswer, _ := json.Marshal(&result)
-	_, _ = writer.Write(jsonAnswer)
+	_ = makeStructJSON(result.FuncName, result.Params, writer)
+}
+
+func makeStructJSON(queryText string, args []interface{}, w http.ResponseWriter) error {
+	rows, err := db.Query(queryText, args...)
+	if err != nil {
+		return err
+	}
+	columns, err := rows.Columns()
+	if err != nil {
+		return err
+	}
+	count := len(columns)
+	values := make([]interface{}, count)
+	scanArgs := make([]interface{}, count)
+	for i := range values {
+		scanArgs[i] = &values[i]
+	}
+	var masterData []map[string]interface{}
+	for rows.Next() {
+		sqlData := make(map[string]interface{})
+		err := rows.Scan(scanArgs...)
+		if err != nil {
+			return err
+		}
+		for i, v := range values {
+			sqlData[columns[i]] = v
+		}
+		masterData = append(masterData, sqlData)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	err = json.NewEncoder(w).Encode(masterData)
+	if err != nil {
+		return err
+	}
+	return err
 }
