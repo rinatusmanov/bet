@@ -35,8 +35,8 @@ func CreateUnitedChannel(intCh ...interface{}) (ch chan interface{}) {
 	}
 	return
 }
-func
-main() {
+
+func main() {
 	intCh := make(chan int)
 	stringCh := make(chan string)
 	go func() {
@@ -57,18 +57,4 @@ main() {
 		}
 
 	}
-	//go func() {
-	//	fmt.Println("Go routine starts")
-	//	intCh <- 7
-	//	intCh <- 5 // блокировка, пока данные не будут получены функцией main
-	//}()
-	//go func() { intCh <- 7 }()
-	//select {
-	//case msg := <-intCh:
-	//	fmt.Println("received message", msg)
-	//	//default:
-	//	//	fmt.Println("no message received")
-	//}
-	////fmt.Println(<-intCh) // получение данных из канала
-	//fmt.Println("The End")
 }
